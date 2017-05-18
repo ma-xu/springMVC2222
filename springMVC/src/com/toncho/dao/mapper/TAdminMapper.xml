@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.toncho.dao.mapper.TAdminMapper">
+	<resultMap id="BaseResultMap" type="com.toncho.dao.entity.TAdmin">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="userName" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, userName, password
+	</sql>
+	
+
+
+	<select id="find" parameterType="com.toncho.dao.entity.TAdmin"
+		resultType="java.lang.Integer">
+		select count(*) from t_admin
+		<if test="_parameter != null">
+			where username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR} 
+		</if>
+	</select>
+
+
+</mapper>

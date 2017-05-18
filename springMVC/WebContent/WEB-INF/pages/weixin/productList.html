@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>商品列表</title>
+		<link rel="stylesheet" th:href="@{/resources/themes/Bootstrap.css}" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile.structure-1.4.0.min.css" />
+		<link rel="stylesheet" th:href="@{/resources/themes/jquery.mobile.icons.min.css}" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+		<link rel="stylesheet" th:href="@{/resources/back/css/bootstrap.min14ed.css?v=3.3.6}" />
+   		<link rel="stylesheet"  th:href="@{/resources/back/css/font-awesome.min93e3.css}" />
+	    <link th:href="@{/resources/back/css/plugins/iCheck/custom.css}" rel="stylesheet"/>
+	    
+	    <link th:href="@{/resources/back/css/style.css}" rel="stylesheet"/>
+	    
+	    <link rel="stylesheet"  th:href="@{/resources/back/css/bootstrap-select.min.css}" />
+	    <link th:href="@{/resources/back/css/plugins/iCheck/custom.css}" rel="stylesheet"/>
+		<link href="https://cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.css" rel="stylesheet">
+	    
+	    
+	    <script th:src="@{/resources/back/js/jquery.min.js?v=2.1.4}"></script>
+	    <script th:src="@{/resources/back/js/bootstrap.min.js?v=3.3.6}"></script>
+	   
+	    <script th:src="@{/resources/back/js/content.min.js?v=1.0.0}"></script>
+	    <script th:src="@{/resources/back/js/plugins/iCheck/icheck.min.js}"></script>
+	    <script th:src="@{/resources/back/js/bootstrap-select.min.js}"></script>
+	    <!--弹出层插件layer.js cdn version-3.0 -->
+		<script src="//cdn.bootcss.com/layer/3.0/layer.js"></script>
+		
+		<script>
+		
+        $(document).ready(function(){
+        	
+        	
+       	});
+  
+		function addCart( obj){
+			productId =obj.id;
+    		productId = productId.replace("PIC",'');
+    		userId=$("#userId").val();
+    		$.ajax({
+				url: '[[@{/weixin/cart/add.do}]]',
+				type: "POST",
+				data: {productId:productId,userId,userId},
+				dataType: "json",
+				cache: false,
+				success: function(data) {
+					if(data>0){
+						layer.msg("加入购物车成功！",{time: 500 });
+					}
+					else{
+						layer.msg("加入购物车失败！",{time: 500 });
+					}
+					
+					
+				}
+			});	
+    		
+    		
+    		
+    		
+		
+		};
+		</script>
+	</head>
+	<body>
+		<div data-role="page" data-theme="a">
+			<div data-role="header" data-position="inline">
+				<h1>核销系统</h1>
+				<input type="hidden" th:value="${userId}" id="userId">
+				<div data-role="navbar">
+					<ul>
+						<li><a th:href="@{/weixin/coupon/list.do?(userId=${userId})}" data-icon="star">优惠券</a></li>
+						<li><a th:href="@{/weixin/product/list.do?(userId=${userId})}" data-icon="star" class="ui-btn-active">商品</a></li>
+						<li><a th:href="@{/weixin/cart/list.do?(userId=${userId})}" data-icon="star">购物车</a></li>
+						<li><a th:href="@{/weixin/address/list.do?(userId=${userId})}" data-icon="star" >地址</a></li>
+					</ul>
+				</div>
+			</div>
+			<div data-role="content" data-theme="a">
+				<h2>商品列表</h2>
+				<!--
+				<ul data-role="listview" data-inset="true" data-divider-theme="f" th:each="coupon : ${coupons}">
+					<li data-role="list-divider" th:text="${coupon.type}"></li>
+					<li data-icon="check"><a th:id="${coupon.couponID}+'ID'" onclick="accept(this)"  th:text="${coupon.amount}+'元优惠券'"></a></li>
+				</ul>
+				  -->
+				  
+				 <div class="ibox float-e-margins">                 
+                    <div class="ibox-content" >
+						<span class="fancybox" th:each="product : ${products}">
+                    		<img onclick="addCart(this)" th:id="${product.id}+'PIC'" alt="image" th:src="${product.picture}" th:title="${product.name}" />
+                		</span>
+                    </div>
+                </div>  
+				  
+				  
+			</div>
+		</div>
+	</body>
+</html>
+

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>优惠券列表</title>
+		<link rel="stylesheet" th:href="@{/resources/themes/Bootstrap.css}" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile.structure-1.4.0.min.css" />
+		<link rel="stylesheet" th:href="@{/resources/themes/jquery.mobile.icons.min.css}" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+		<script>
+		function accept( obj){
+    		id =obj.id;
+    		id = id.replace("ID",'');
+		}
+		
+		</script>
+	</head>
+	<body>
+		<div data-role="page" data-theme="a">
+			<div data-role="header" data-position="inline">
+				<h1>核销系统</h1>
+				<input type="hidden" th:value="${userId}" id="userId">
+				<div data-role="navbar">
+					<ul>
+						<li><a th:href="@{/weixin/coupon/list.do?(userId=${userId})}" data-icon="star" class="ui-btn-active">优惠券</a></li>
+						<li><a th:href="@{/weixin/product/list.do?(userId=${userId})}" data-icon="star" >商品</a></li>
+						<li><a th:href="@{/weixin/cart/list.do?(userId=${userId})}" data-icon="star">购物车</a></li>
+						<li><a th:href="@{/weixin/address/list.do?(userId=${userId})}" data-icon="star" >地址</a></li>
+					</ul>
+				</div>
+			</div>
+			<div data-role="content" data-theme="a">
+				<h2>优惠券列表</h2>
+				
+				<ul data-role="listview" data-inset="true" data-divider-theme="f" th:each="coupon : ${coupons}">
+					<li data-role="list-divider" th:text="${coupon.type}"></li>
+					<li data-icon="check"><a th:id="${coupon.couponID}+'ID'" onclick="accept(this)"  th:text="${coupon.amount}+'元优惠券'"></a></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
+

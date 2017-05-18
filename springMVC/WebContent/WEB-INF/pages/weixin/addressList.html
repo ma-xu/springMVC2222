@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>地址管理</title>
+		<link rel="stylesheet" th:href="@{/resources/themes/Bootstrap.css}" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile.structure-1.4.0.min.css" />
+		<link rel="stylesheet" th:href="@{/resources/themes/jquery.mobile.icons.min.css}" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+		<link rel="stylesheet" th:href="@{/resources/back/css/bootstrap.min14ed.css?v=3.3.6}" />
+   		<link rel="stylesheet"  th:href="@{/resources/back/css/font-awesome.min93e3.css}" />
+	    <link th:href="@{/resources/back/css/plugins/iCheck/custom.css}" rel="stylesheet"/>
+	    
+	    <link th:href="@{/resources/back/css/style.css}" rel="stylesheet"/>
+	    
+	    <link rel="stylesheet"  th:href="@{/resources/back/css/bootstrap-select.min.css}" />
+	    <link th:href="@{/resources/back/css/plugins/iCheck/custom.css}" rel="stylesheet"/>
+		<link href="https://cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.css" rel="stylesheet">
+	    
+	    
+	    <script th:src="@{/resources/back/js/jquery.min.js?v=2.1.4}"></script>
+	    <script th:src="@{/resources/back/js/bootstrap.min.js?v=3.3.6}"></script>
+	   
+	    <script th:src="@{/resources/back/js/content.min.js?v=1.0.0}"></script>
+	    <script th:src="@{/resources/back/js/plugins/iCheck/icheck.min.js}"></script>
+	    <script th:src="@{/resources/back/js/bootstrap-select.min.js}"></script>
+	    <!--弹出层插件layer.js cdn version-3.0 -->
+		<script src="//cdn.bootcss.com/layer/3.0/layer.js"></script>
+		<script>
+			function del(obj){
+				id =obj.id;
+	    		id = id.replace("ID",'');
+	    		
+	    		//询问框
+	    		layer.confirm('确定删除此地址？', {
+	    		  btn: ['删除','取消'] //按钮
+	    		}, function(){
+	    			$.ajax({
+	    				url: '[[@{/weixin/address/delete.do}]]',
+	    				type: "POST",
+	    				data: {id:id},
+	    				dataType: "json",
+	    				cache: false,
+	    				success: function(data) {
+	    					if(data==1){
+	    						
+	    						layer.msg('删除成功',{time: 1200});
+	    						setTimeout(function(){  //使用  setTimeout（）方法设定定时2000毫秒
+	    			                window.location.reload();//页面刷新
+	    			            },1000); 
+	    					}
+	    					else{
+	    						
+	    						layer.msg('删除失败',{time: 1200}); 
+	    					};
+	    				}
+	        		});
+	    		}, function(){
+	    		  layer.closeAll();
+	    		});
+	    	
+	    		
+			}
+			
+			
+			//显示添加弹出层
+			function showadd(){
+				$("#insertView").show();
+				$("#insertModal").show();
+			}
+			
+			function closeBtn(){
+				$("#insertView").hide();
+				$("#insertModal").hide();
+			}
+			
+			
+			
+			
+			
+			function insert(){
+				var name = $("#insert_name").val();
+	    		var userId=$("#insert_userId").val();
+	    		var mobile=$("#insert_mobile").val();
+	    		var address=$("#insert_address").val();
+	    		
+	    		
+	    		$.ajax({
+					url: '[[@{/weixin/address/add.do}]]',
+					type: "POST",
+					data: {name:name,userId:userId,mobile:mobile,address:address},
+					dataType: "json",
+					cache: false,
+					success: function(data) {
+						if(data==1){
+							closeBtn();
+							layer.msg('保存成功',{time: 1200});
+							setTimeout(function(){  //使用  setTimeout（）方法设定定时2000毫秒
+				                window.location.reload();//页面刷新
+				            },1000); 
+							
+							
+						}
+						else{
+							closeBtn();
+							layer.msg('保存失败',{time: 1200}); 
+						};
+						
+						
+					}
+	    		});
+				
+			}
+			
+		
+		</script>
+	</head>
+	<body>
+		<div data-role="page" data-theme="a">
+		
+		 	<!--添加弹出层开始-->
+	        <div id="insertView" style="display: none;">
+	            <div id="insertModal" class="modal in" style="overflow: auto; padding-right: 6px;" >
+	                <div class="modal-dialog">
+	                    <div class="modal-content">
+	                        <div class="modal-header">
+	                            <a type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="closeBtn()">×</a>
+	                            <h4 class="modal-title">添加地址</h4>
+	                        </div>
+	                        <div class="modal-body ui-front" style="min-height: 250px;">
+	                            
+	                                <div class="form-group">
+	                                    <label class="col-sm-3 control-label">姓名：</label>
+	
+	                                    <div class="col-sm-8">
+	                                        <input class="form-control" id="insert_name">
+	                                    </div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="col-sm-3 control-label">电话：</label>
+	
+	                                    <div class="col-sm-8">
+	                                        <input class="form-control" id="insert_mobile">
+	                                    </div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="col-sm-3 control-label">地址：</label>
+	
+	                                    <div class="col-sm-8">
+	                                        <input class="form-control" id="insert_address">
+	                                        <input type="hidden" id="insert_userId" th:value="${userId}"/>
+	                                    </div>
+	                                </div>
+	                                
+	                                <div class="form-group" >
+	                                    <div class="col-sm-offset-3 col-sm-8">
+	                                        <button class="btn  btn-warning" style="margin-top: 10px;margin-bottom:10px;" onclick="insert()">保存</button>
+	                                    </div>
+	                                </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="modal-backdrop in"></div>
+	        </div>
+	        <!--添加弹出层结束-->
+		
+		
+			<div data-role="header" data-position="inline">
+				<h1>核销系统</h1>
+				<input type="hidden" th:value="${userId}" id="userId">
+				<div data-role="navbar">
+					<ul>
+						<li><a th:href="@{/weixin/coupon/list.do?(userId=${userId})}" data-icon="star" >优惠券</a></li>
+						<li><a th:href="@{/weixin/product/list.do?(userId=${userId})}" data-icon="star" >商品</a></li>
+						<li><a th:href="@{/weixin/cart/list.do?(userId=${userId})}" data-icon="star" >购物车</a></li>
+						<li><a th:href="@{/weixin/address/list.do?(userId=${userId})}" data-icon="star" class="ui-btn-active">地址</a></li>
+					</ul>
+				</div>
+			</div>
+			<div data-role="content" data-theme="a">
+				<h2>我的地址</h2>
+				<ul data-role="listview" data-inset="true" data-divider-theme="f" th:each="address : ${addresses}">
+					<li th:text="'姓名： '+${address.name}"></li> 
+					<li th:text="'电话： '+${address.mobile}"></li>
+					<li data-icon="delete"><a th:id="${address.id}+'ID'" onclick="del(this)"  th:text="'地址： '+${address.address}"></a></li>
+				</ul>
+		   		
+				
+				
+				
+			</div>
+		
+		<div class="footer" style="position: fixed;bottom: 20px; width: 100%;height: 80px;">
+            <button type="button" onclick="showadd()" class="btn btn-warning">添加地址</button>
+        </div>
+		
+		</div>
+	</body>
+</html>
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.toncho.dao.mapper.TCartMapper">
+	<resultMap id="BaseResultMap" type="com.toncho.dao.map.CartMap">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="userId" property="userId" jdbcType="BIGINT" />
+		<result column="productId" property="productId" jdbcType="BIGINT" />
+		<result column="productPrice" property="productPrice" jdbcType="FLOAT" />
+		<result column="productPicture" property="productPicture" jdbcType="VARCHAR" />
+		<result column="productName" property="productName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,userId,productId
+	</sql>
+	
+	
+	<insert id="save" parameterType="com.toncho.dao.entity.TCart">
+		insert into t_cart (userId,productId)
+		values (#{userId,jdbcType=BIGINT},
+		#{productId,jdbcType=BIGINT})
+	</insert>
+	
+	
+	<select id="findMapbyUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+       select c.id id, c.userId userId,c.productId productId,p.price productPrice, p.picture productPicture, p.name productName
+       from t_cart c,t_product p where c.productId = p.id and c.userId = #{userId,jdbcType=BIGINT}   
+    </select>
+	
+	
+	<delete id="delete" parameterType="java.lang.Long">
+		delete from t_cart
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	
+	
+</mapper>
