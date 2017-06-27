@@ -35,7 +35,7 @@
 				<h2>优惠券列表</h2>
 				
 				<ul data-role="listview" data-inset="true" data-divider-theme="f" th:each="coupon : ${coupons}">
-					<li data-role="list-divider" th:text="${coupon.type}"></li>
+					<li data-role="list-divider" th:text="'满'+${coupon.type}+'元可使用'"></li>
 					<li data-icon="check"><a th:id="${coupon.couponID}+'ID'" onclick="accept(this)"  th:text="${coupon.amount}+'元优惠券'"></a></li>
 				</ul>
 			</div>

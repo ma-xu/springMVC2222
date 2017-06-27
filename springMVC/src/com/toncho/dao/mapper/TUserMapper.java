@@ -22,5 +22,9 @@ public interface TUserMapper {
 	int find(TUser user);
 	
 	TUser findUser(TUser user);
+	
+	int save(TUser user);
+	
+	TUser findById(Long userId);
 
 }

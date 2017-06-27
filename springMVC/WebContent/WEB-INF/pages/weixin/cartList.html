@@ -54,6 +54,34 @@
 	    	
 	    		
 			}
+			
+			
+			
+			function paymoney(){
+				var userId =$("#userId").val();
+				var money = $("#finalMount").val();
+				$.ajax({
+					url: '[[@{/order/paymoney.do}]]',
+					type: "POST",
+					data: {userId:userId,money:money},
+					dataType: "json",
+					cache: false,
+					success: function(data) {
+						if(data>0){
+							layer.msg("下单成功！",{time: 500 });
+							setTimeout(function(){  //使用  setTimeout（）方法设定定时2000毫秒
+								window.history.back(-1);
+
+				            },1000); 
+						}
+						else{
+							layer.msg("下单失败！",{time: 500 });
+						}
+					}
+				});	
+				
+			}
+			
 		
 		</script>
 	</head>
@@ -104,10 +132,13 @@
 		
 		<div class="footer" style="position: fixed;bottom: 20px; width: 100%;height: 80px;">
             <div class="pull-right">
-                <button type="button" class="btn btn-w-m btn-warning" >结算</button>
+                <button onclick="paymoney()" type="button" class="btn btn-w-m btn-warning" th:text="'结算¥'+${finalMount}">结算</button>
+            	<input type="hidden" th:value="${finalMount}" id="finalMount">
             </div>
             <div>
-                <span>总计</span> <strong th:text="${totalMount}">0</strong>元
+            	<span>商品</span> <strong th:text="${totalMount}">0</strong>元<br>
+            	<span>优惠</span> <strong th:text="${reduceMount}">0</strong>元<br>
+                <span>总计</span> <strong th:text="${finalMount}">0</strong>元<br>
             </div>
         </div>
 		

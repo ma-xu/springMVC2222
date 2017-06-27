@@ -25,13 +25,15 @@
 			<include refid="common.Example_Where_Clause" />
 		</if>
 	</select>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+	<select id="findById" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
 		select
 		<include refid="Base_Column_List" />
 		from t_user
 		where userID = #{userid,jdbcType=BIGINT}
 	</select>
+	
+	
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from t_user
 		where userID = #{userid,jdbcType=BIGINT}
@@ -163,5 +165,12 @@
 			where username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR} 
 		</if>
 	</select>
+	
+	
+	<insert id="save" parameterType="com.toncho.dao.entity.TUser">
+		insert into t_user (userName, password)
+		values (#{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR})
+	</insert>
 
 </mapper>

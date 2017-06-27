@@ -52,4 +52,18 @@ public class UserServiceImpl implements IUserService {
         return userMapper.findUser(user);
     }
 
+    @Override
+    public int save(TUser user)
+    {
+        // TODO Auto-generated method stub
+        return userMapper.save(user);
+    }
+
+    @Override
+    public TUser findById(Long userId)
+    {
+        // TODO Auto-generated method stub
+        return userMapper.findById(userId);
+    }
+
 }

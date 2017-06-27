@@ -88,6 +88,55 @@ public class CartController extends AbstractController
        for(CartMap cartMap :cartMaps){
            totalMount+=cartMap.getProductPrice();
        }
+      
+       List<TCoupon> coupons = couponService.findAll();
+       if(totalMount <1000){
+           for(TCoupon coupon:coupons){
+               if(Long.parseLong(coupon.getType())==1000){
+                   coupons.remove(coupon);
+               }
+           }
+       }
+       if(totalMount <500){
+           for(TCoupon coupon:coupons){
+               if(Long.parseLong(coupon.getType())==500){
+                   coupons.remove(coupon);
+               }
+           }
+       }
+       if(totalMount <100){
+           for(TCoupon coupon:coupons){
+               if(Long.parseLong(coupon.getType())==100){
+                   coupons.remove(coupon);
+               }
+           }
+       }
+       if(totalMount <50){
+           for(TCoupon coupon:coupons){
+               if(Long.parseLong(coupon.getType())==50){
+                   coupons.remove(coupon);
+               }
+           }
+       }
+           
+       
+       float reduceMount = 0;
+       if(coupons.size()==0){
+           model.addAttribute("tips", "您无优惠券可用。");  
+       }
+       else{
+           TCoupon canuseCoupon= new TCoupon();
+           for(TCoupon coupon:coupons){
+               if(coupon.getAmount()>reduceMount){
+                   reduceMount = coupon.getAmount();
+                   canuseCoupon=coupon;
+               }
+           }
+           model.addAttribute("tips", "您可用一张满"+canuseCoupon.getType()+"元减"+canuseCoupon.getAmount()+"元优惠券。");  
+       }
+       
+       model.addAttribute("reduceMount", reduceMount);
+       model.addAttribute("finalMount", totalMount-reduceMount);
        model.addAttribute("totalMount", totalMount);
        model.addAttribute("userId", userId);
         

@@ -165,13 +165,13 @@
     		id = id.replace("button",'');
     		
     		//询问框
-    		layer.confirm('确定删除此优惠券？', {
+    		layer.confirm('确定删除此订单？', {
     		  btn: ['删除','取消'] //按钮
     		}, function(){
     			$.ajax({
-    				url: '[[@{/coupon/delete.do}]]',
+    				url: '[[@{/order/delete.do}]]',
     				type: "POST",
-    				data: {couponID:id},
+    				data: {id:id},
     				dataType: "json",
     				cache: false,
     				success: function(data) {
@@ -211,41 +211,27 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <a type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="closeBtn()">×</a>
-                            <h4 class="modal-title">添加设计图文</h4>
+                            <h4 class="modal-title">添加优惠券</h4>
                         </div>
-                        <div class="modal-body ui-front" style="min-height: 300px;">
+                        <div class="modal-body ui-front" style="min-height: 200px;">
                             
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label">设计名称：</label>
+                                    <label class="col-sm-3 control-label">金额：</label>
 
                                     <div class="col-sm-8">
                                         <input class="form-control" id="insert_amount">
-                                    </div>
-                                </div>
-                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label">相关作者：</label>
-
-                                    <div class="col-sm-8">
-                                        <input class="form-control" id="insert_a22mount">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">类别：</label>
                                     <div class="col-sm-8">
                                         <select class="selectpicker" id="insert_type" data-style="btn-success" data-width="100%">
-                                            <option value="50">应用场景</option>
-                                            <option value="100">专业知识</option>
-                                            <option value="500">设计分享</option>
-                                            <option value="1000">案例介绍</option>
-                                            <option value="1000">灯具介绍</option>
+                                            <option value="50">满50减</option>
+                                            <option value="100">满100减</option>
+                                            <option value="500">满500减</option>
+                                            <option value="1000">满1000减</option>
                                              
                                         </select>
-                                    </div>
-                                </div> 
-                               	<div class="form-group">
-                               		<label class="col-sm-3 control-label">图文详情：</label>
-                                    <div class="col-sm-8">
-                                    	<textarea></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group" >
@@ -317,38 +303,45 @@
             <div class="col-sm-10 col-sm-offset-1">
                 <div class="ibox">  
                 	<div class="ibox-title">
-                        <h2 class="text-center">室内照明设计方案系统</h2>
+                        <h2 class="text-center">营销管理系统</h2>
                     </div>
  
                     <div class="ibox-content">
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="panel panel-warning">
                                     <div class="panel-heading">
-                                        <a th:href="@{/coupon/list.do}" class='text-center'>灯具产品</a>
+                                        <a th:href="@{/coupon/list.do}" class='text-center'>优惠券</a>
                                     </div>
                                     
 
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        <a th:href="@{/product/list.do}" class='text-center'>案例精选</a>
+                                        <a th:href="@{/product/list.do}" class='text-center'>商品</a>
                                     </div>
                                     
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="panel panel-info">
                                     <div class="panel-heading">
-                                         <a th:href="@{/user/list.do}" class='text-center'>设计中心</a>
+                                         <a th:href="@{/user/list.do}" class='text-center'>用户</a>
                                     </div>
                                     
                                 </div>
                             </div>
-                            
+                            <div class="col-sm-3">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading">
+                                         <a th:href="@{/order/list.do}" class='text-center'>订单</a>
+                                    </div>
+                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -358,9 +351,9 @@
         
         <div class="row">
 	        <div class="col-sm-10 col-sm-offset-1">
-	        	<div class="panel panel-info">
+	        	<div class="panel panel-warning">
 		        	<div class="panel-heading">
-	                    <p class='text-center'>设计中心管理页面</p>
+	                    <p class='text-center'>订单管理页面</p>
 	                </div>
                 </div>
 	        </div>
@@ -371,31 +364,31 @@
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
                 <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <button type="button" class="btn btn-success text-right" onclick="show_insert()">添加</button>
-                    </div>
+                    
                     <div class="ibox-content">
 
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>设计标题</th>
-                                    <th>设计类别</th>
-                                    <th>作者</th>
+                                    
+                                    <th>订单ID</th>
+                                    <th>用户名</th>
+                                    <th>时间</th>
+                                    <th>金额</th>
+                                    <th>地址</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	<tr th:each="coupon : ${coupons}">
-							        <td th:text="${coupon.couponID}"></td>
-							        <td th:text="${coupon.amount}"></td>
-							        <td th:text="${coupon.amount}"></td>
-							        <td th:text="'满'+${coupon.type}+'减'">yes</td>
+                            	<tr th:each="orderMap : ${orderMaps}">
+							        <td th:text="${orderMap.id}"></td>
+							        <td th:text="${orderMap.username}"></td>
+							        <td th:text="${orderMap.date}"></td>
+							        <td th:text="${orderMap.money}"></td>
+							        <td th:text="${orderMap.address}"></td>
 							        <td>
 							        	<div class="btn-group btn-group-sm">
-                                            <button type="button" class="btn btn-warning" th:id="${coupon.couponID}+'button'"  onclick="edit(this)">修改</button>
-                                            <button type="button" class="btn btn-danger" th:id="${coupon.couponID}+'button'" onclick="del(this)">删除</button>
+                                            <button type="button" class="btn btn-danger" th:id="${orderMap.id}+'button'" onclick="del(this)">删除</button>
                                         </div>
 							        </td>
 							    </tr>

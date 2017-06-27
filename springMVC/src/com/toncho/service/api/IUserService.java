@@ -15,4 +15,8 @@ public interface IUserService {
 	
 	TUser findUser(TUser user);
 	
+	int save(TUser user);
+	
+	TUser findById(Long userId);
+	
 }
